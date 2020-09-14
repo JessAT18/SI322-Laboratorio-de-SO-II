@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo "----------MENU----------"
+echo "1. Apagar sistema"
+echo "2. Reiniciar sistema"
+echo "3. Apagar en minutos"
+echo "4. Salir"
+echo "------------------------"
+echo "Elija una opción:"
+read op
+case $op in
+1) poweroff ;;
+2) reboot ;;
+3)  read -p "Ingrese minutos: " m
+    shutdown +$m;;
+4) exit
+esac

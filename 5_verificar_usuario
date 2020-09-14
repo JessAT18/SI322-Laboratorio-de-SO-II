@@ -1,0 +1,12 @@
+#!/bin/bash
+
+read -p "Nombre del usuario que desea buscar: " nombre
+dir=/home/$nombre
+
+if [ -d $dir ]; then
+    echo "Directorio existente"
+    cd $dir
+    tree
+else
+    echo "No existe el directorio"
+fi

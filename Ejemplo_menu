@@ -1,0 +1,125 @@
+#!/bin/bash
+#funcion de menu de usuario
+function menuU(){
+local op
+local no
+local noc
+local ids
+local nom
+local nomc
+local idm
+local nos
+local noe
+while true
+do
+echo "-----------------------------------------"
+echo "--------------GEstionar usuario----------"
+echo "-----------------------------------------"
+echo "1. Crear Usuario con ID y nombre completo"
+echo "2. Modificar Id usuario y nombre completo"
+echo "3. Crear super usuario"
+echo "4. Eliminar usario"
+echo "5. Ver todos los usuarios"
+echo "0. Atras"
+echo "-----------------------------------------"
+echo ""
+echo "digite una opcion: "
+read op
+
+case $op in
+1) read -p "nombre del usuario: " no
+   read -p "nombre completo del usuario: " noc
+   read -p "ID del usuario: " ids
+   useradd -u $ids -c "$noc" $no ;;
+
+2) read -p "nombre del usuario a modificar: " nom
+   read -p "nombre completo del usuario: " nomc
+   read -p "id a modificar: " idm
+   usermod -u $idm -c "$nomc" $nom ;;
+
+3) read -p "nombre del super usuario: " nos
+   useradd -u 0 -g 0 -o $nos ;;
+
+4) read -p "nombre del usuario a elminar: " noe
+   read -p "Desea eliminar los archivos de este usuario? (si/no)" opcion
+   if [ $opcion=="si" ]; then
+       userdel -r $noe
+   else
+       userdel  $noe
+   fi ;;
+5) cat /etc/passwd ;;
+
+0) break ;;
+esac
+
+done
+return 0
+}
+
+#funcion de menu grupo
+function menuG(){
+local op
+local no
+local ids
+local noe
+while true
+do
+echo "------------------------------------"
+echo "--------------GEstionar grupo-------"
+echo "------------------------------------"
+echo "1. Crear grupo con ID"
+echo "2. Eliminar grupo"
+echo "3. Ver todos los grupos"
+echo "4. Asignar usuario a un grupo (usuario y grupo creado)"
+echo "5. Crear usuario y asignar a un grupo (grupo creado)"
+echo "0. Atras"
+echo "-----------------------------------"
+echo ""
+echo "digite una opcion: "
+read op
+
+case $op in
+1) read -p "nombre del grupo: " no
+   read -p "ID del grupo: " ids
+   groupadd -g $ids $no ;;
+
+2) read -p "nombre del grupo a elminar: " noe
+   groupdel  $noe ;;
+
+3)cat /etc/group ;;
+
+4)read -p "nombre del usuario: " nusuario
+  read -p "nombre del grupo: " ngrupo
+  usermod -g $ngrupo $nusuario ;;
+5)read -p "nombre del nuevo usuario" nusuario
+  read -p "nombre del grupo: " ngrupo
+  useradd $nusuario -g ;;
+
+0) break ;;
+esac
+
+done
+return 0
+}
+
+
+#programa principal
+while true
+do
+echo "------------------------------------"
+echo "--------------Menu------------------"
+echo "------------------------------------"
+echo "1. Gestionar usuario"
+echo "2. Gestionar grupo"
+echo "0. Salir"
+echo "-----------------------------------"
+echo ""
+echo "digite una opcion: "
+read opf
+
+case $opf in
+1) menuU ;;
+2) menuG ;;
+0) exit ;;
+esac
+done
